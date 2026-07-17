@@ -1,0 +1,25 @@
+# Portability path only. On Apple Silicon this runs CPU inference with no webcam:
+# Docker Desktop passes through neither the Metal GPU nor the host camera.
+# For the real-time demo, run natively with conda. See README.
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      OT_IN_DOCKER: "1"
+      OT_DEVICE: cpu
+      OT_CLIP_EVERY_N: "30"  # CPU CLIP is far slower; sample harder than the native default
+    volumes:
+      - ./data:/app/data  # drop .mp4 files here; file input is the only source in Docker
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
