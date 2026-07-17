@@ -105,7 +105,7 @@ onUnmounted(() => clearInterval(poller))
     <header class="masthead">
       <div class="brand">
         <span class="brand__dot" :class="{ live: running }" aria-hidden="true" />
-        <h1>ObjectTracker</h1>
+        <h1>VisionStream</h1>
       </div>
       <p class="tagline">
         Real-time video understanding —

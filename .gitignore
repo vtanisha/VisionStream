@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+
+# model weights - downloaded on first run
+*.pt
+backend/models/*
+!backend/models/.gitkeep
+
+# test clips - too big for git, see README for how to supply your own
+data/*
+!data/.gitkeep
+
+# benchmark output
+benchmarks/results/*.json
+
+node_modules/
+frontend/dist/
+.vite/

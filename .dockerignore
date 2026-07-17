@@ -1,0 +1,14 @@
+# data/ is bind-mounted by compose, not baked in — a 6MB clip in the build context is waste
+data/
+benchmarks/
+docs/
+
+frontend/node_modules/
+frontend/dist/
+
+**/__pycache__/
+**/*.py[cod]
+.pytest_cache/
+.git/
+.DS_Store
+*.pt

@@ -1,0 +1,35 @@
+# Backend env. Create with:  conda env create -f environment.yml
+#
+# torch/torchvision are pinned as a matched pair on purpose: conda-forge will happily
+# solve torch 2.10 + torchvision 0.26, which is a mismatch. YOLO calls torchvision.ops.nms
+# (a compiled op linked against libtorch), so the mismatch breaks at runtime, not at solve.
+#
+# open_clip_torch is not on conda-forge. It is installed via pip with --no-deps so pip
+# cannot pull its own torch wheel over the conda one; its deps are listed as conda pkgs above.
+name: objecttracker
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pytorch=2.10
+  - torchvision=0.25
+  - opencv=4.13
+  - ultralytics=8.4
+  # ByteTrack's linear-assignment solver. Ultralytics does NOT declare it, and will
+  # silently pip-install it on the first .track() call if absent - which breaks a
+  # conda-only env and contaminates any benchmark running at the time.
+  - lap=0.5.13
+  - fastapi=0.139
+  - uvicorn
+  - python-multipart
+  - numpy
+  - pillow
+  - ftfy
+  - regex
+  - tqdm
+  - huggingface_hub
+  - timm
+  - pip:
+      - --no-deps
+      - open_clip_torch==3.3.0
