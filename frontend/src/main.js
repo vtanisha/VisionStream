@@ -8,8 +8,7 @@ import '@fontsource/geist-sans/700.css'
 import '@fontsource/geist-mono/400.css'
 import '@fontsource/geist-mono/500.css'
 
-import './tokens.css'
-import './style.css'
+// global tokens + base styles now live in App.vue's <style> block (no standalone .css)
 import App from './App.vue'
 
 createApp(App).mount('#app')

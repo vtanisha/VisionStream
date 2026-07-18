@@ -163,6 +163,139 @@ onUnmounted(() => clearInterval(poller))
   </div>
 </template>
 
+<!-- global design tokens + base reset (unscoped, so :root and html/body apply document-wide) -->
+<style>
+:root {
+  color-scheme: light;
+
+  /* Paper / ink — cool-pastel band (hue 258) */
+  --color-paper-0:  oklch(98.4% 0.005 258);
+  --color-paper-1:  oklch(96.2% 0.010 258);
+  --color-paper-2:  oklch(93.0% 0.015 258);
+  --color-paper-3:  oklch(89.0% 0.020 258);
+  --color-ink-0:    oklch(18.0% 0.030 258);
+  --color-ink-1:    oklch(35.0% 0.025 258);
+  --color-ink-2:    oklch(52.0% 0.018 258);
+  --color-ink-3:    oklch(70.0% 0.012 258);
+
+  /* One accent — indigo. Everything else is neutral or a functional signal. */
+  --color-accent:      oklch(54.0% 0.220 268);
+  --color-accent-deep: oklch(46.0% 0.220 268);
+  --color-accent-soft: oklch(72.0% 0.140 268);
+  --color-accent-tint: oklch(94.0% 0.040 268);
+
+  /* Functional signals — used sparingly, never as brand colour */
+  --color-live:     oklch(82.0% 0.180 130);
+  --color-success:  oklch(60.0% 0.150 145);
+  --color-warning:  oklch(64.0% 0.170 55);
+  --color-danger:   oklch(58.0% 0.200 25);
+  --color-danger-tint:  oklch(94.0% 0.035 25);
+  --color-success-tint: oklch(94.0% 0.030 145);
+  --color-warning-tint: oklch(94.0% 0.040 60);
+
+  --color-focus:    oklch(46.0% 0.220 268);
+
+  /* Cool graphite video well — the one dark surface */
+  --color-well:     oklch(22.0% 0.020 258);
+  --color-well-2:   oklch(28.0% 0.022 258);
+  --color-on-well:      oklch(94.0% 0.010 258);
+  --color-on-well-mute: oklch(70.0% 0.014 258);
+
+  /* Type — Geist + Geist Mono, self-hosted via @fontsource */
+  --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-md:   1.125rem;
+  --text-lg:   1.375rem;
+  --text-xl:   1.75rem;
+  --text-2xl:  2.25rem;
+
+  --tracking-tight: -0.02em;
+  --tracking-label:  0.08em;
+
+  --lh-tight:  1.1;
+  --lh-snug:   1.25;
+  --lh-normal: 1.55;
+
+  --space-2xs: 0.25rem;
+  --space-xs:  0.5rem;
+  --space-sm:  0.75rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
+  --space-2xl: 3rem;
+
+  --page-max:    82rem;
+  --page-gutter: clamp(1rem, 4vw, 2.5rem);
+
+  /* Tight radii — modern, ruler-drawn */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-pill: 999px;
+
+  /* Hairlines do the structural work; shadow is a whisper, not a lift */
+  --rule-hair: 1px solid color-mix(in oklch, var(--color-ink-0) 9%, transparent);
+  --rule-soft: 1px solid color-mix(in oklch, var(--color-ink-0) 15%, transparent);
+  --shadow-card: 0 1px 2px oklch(18% 0.03 258 / 0.06);
+  --shadow-well: 0 8px 28px -14px oklch(18% 0.03 258 / 0.30);
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-fast: 140ms;
+  --dur-mid:  240ms;
+  --dur-slow: 420ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  overflow-x: clip; /* never hidden — gate 34 */
+}
+
+body {
+  background: var(--color-paper-0);
+  color: var(--color-ink-0);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#app { min-height: 100vh; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-style: normal; /* roman only — no italic headers */
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--lh-snug);
+}
+
+/* every live number is tabular so the panel doesn't jitter as values update */
+.mono, .num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+</style>
+
 <style scoped>
 .app {
   max-width: var(--page-max);
